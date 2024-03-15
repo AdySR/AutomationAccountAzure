@@ -22,7 +22,7 @@ Set-AzContext -Subscription $subscription
 
 Import-Module Az
 $azStorageAccountName = "defaultadlsgen2num1" # Name of your storage account 
-$azStorageAccountKey = "+2GGGIUaL8qQ0Kb7ImFS2T5zKjiGXgK7xKHm6y89bk0yb8EkXhiZ1bn+wbZ0/YMmhQ9z/o3Fkd2B+ASt6nvs3w==" # Access key for your storage account
+$azStorageAccountKey = "++wbZ0/YMmhQ9z/o3Fkd2B+==" # Access key for your storage account
 $azContainerName = "sftpshared" # Container name to list your blobs
 $azResourceGroupName = "default-rg" # Resource group name where storage account lives
 
