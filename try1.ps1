@@ -1,0 +1,1 @@
+﻿install-module -name azuread
