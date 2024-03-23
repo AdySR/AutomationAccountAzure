@@ -1,0 +1,35 @@
+# Set-AzContext -Identity
+Connect-AzAccount -Identity
+
+$sourceResourceGroup = "primeRG"
+$sourceStorageAccountName = "primergblobstorage"
+$sourceContainerName = "primary"
+$sourceFolder = "processedfiles"
+
+$destinationResourceGroup = "prodRG"
+$destinationStorageAccountName = "prodrgadlsfilestorage"
+$destinationContainerName = "primary"
+$destinationFolder = "produploads"
+
+
+
+
+# Get source storage account context
+$sourceStorageContext = New-AzStorageContext -StorageAccountName $sourceStorageAccountName -ResourceGroupName $sourceResourceGroup
+
+# Get destination storage account context
+$destinationStorageContext = New-AzStorageContext -StorageAccountName $destinationStorageAccountName -ResourceGroupName $destinationResourceGroup
+<#
+# Get list of blobs in source folder
+$blobs = Get-AzStorageBlob -Context $sourceStorageContext -Container $sourceContainerName -Prefix $sourceFolder -BlobType "BlockBlob"
+
+# Move each blob to the destination folder
+foreach ($blob in $blobs) {
+    $sourceBlobName = $blob.Name
+    $destinationBlobName = $sourceBlobName -replace [regex]::Escape($sourceFolder), $destinationFolder
+    Start-AzStorageBlobCopy -Context $sourceStorageContext -Container $sourceContainerName -Blob $sourceBlobName -DestContext $destinationStorageContext -DestContainer $destinationContainerName -DestBlob $destinationBlobName
+    Remove-AzStorageBlob -Context $sourceStorageContext -Container $sourceContainerName -Blob $sourceBlobName
+}
+
+
+#>
