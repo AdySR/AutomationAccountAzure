@@ -70,3 +70,43 @@ copied_blob.start_copy_from_url(source_blob)
 # $destinationStorageAccountName = "dnaadydfsa"
 # $destinationContainerName = "cvsprocess"
 # $destinationFolder = "processed_files"
+
+
+
+
+
+
+from azure.storage.blob import BlobServiceClient
+
+# Source
+account_name = "dnaadydfsa"
+source_connection_string = "DefaultEndpointsProtocol=https;AccountName=dnaadydfsa;AccountKey=uyVzSUvq/TJafthIcrOELH67NRQrlU4kiuvPbapf0zYoJYK1+lyvzbqu92dK4aqA+DRM/RDwWbEl+ASti1ZhUg==;EndpointSuffix=core.windows.net"
+source_container_name = "cvsprocess"
+
+# Target
+target_connection_string = "<your_target_connection_string>"
+target_container_name = "cvsprocess"
+
+# Create blob service clients for source and target
+source_blob_service_client = BlobServiceClient.from_connection_string(source_connection_string)
+target_blob_service_client = BlobServiceClient.from_connection_string(target_connection_string)
+
+# Get a list of blobs in the source container
+source_container_client = source_blob_service_client.get_container_client(source_container_name)
+blobs = source_container_client.list_blobs()
+
+# Copy each blob from source to target
+for blob in blobs:
+    # Get source blob URL
+    source_blob_url = f"https://{account_name}.blob.core.windows.net/{source_container_name}/{blob.name}"
+
+    # Specify target file path
+    target_file_path = f"processed_files/{blob.name}"
+
+    # Get target blob client
+    target_blob_client = target_blob_service_client.get_blob_client(target_container_name, target_file_path)
+
+    # Start the copy operation
+    target_blob_client.start_copy_from_url(source_blob_url)
+
+print("Files copied successfully.")
